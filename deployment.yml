@@ -1,0 +1,16 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: ftp-server
+# spec:
+#   replicas: 1
+#   template:
+#     metadata:
+#       labels:
+#         app: ftp-server
+#     spec:
+#       containers:
+#         - name: ftp-server
+#           image: acrsimplechaindev.azurecr.io/container/scheck-ftpserver:
+#           ports:
+#             - containerPort: 21

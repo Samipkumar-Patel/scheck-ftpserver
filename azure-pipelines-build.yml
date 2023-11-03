@@ -1,0 +1,34 @@
+trigger:
+  tags:
+    include:
+    - '*'
+
+pr: none
+
+pool: azure pipelines
+
+
+variables:
+  - group: acr-devops
+  - name: tag
+    value: 0.1.0
+  - name: serviceName
+    value: scheck-ftpserver
+  - name: acrDockerRepo
+    value: container
+
+jobs:
+- job: Build
+  steps:
+  - task: AzureCLI@2
+    displayName: Docker build and push
+    inputs:
+      azureSubscription: azureResourcesSharedSC
+      workingDirectory: $(System.DefaultWorkingDirectory)
+      scriptType: pscore
+      scriptLocation: inlineScript
+      inlineScript: |
+        docker login '$(acrName)' --username '$(ACR_USER_NAME)' --password '$(ACR_PASSWORD)'
+        docker build . -t $(acrName)/$(acrDockerRepo)/$(serviceName):$(tag)
+        docker tag $(acrDockerRepo)/$(serviceName):$(tag)  $(acrName)/$(acrDockerRepo)/$(serviceName):$(tag)
+        docker push $(acrName)/$(acrDockerRepo)/$(serviceName):$(tag)
