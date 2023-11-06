@@ -3,8 +3,6 @@ pr: none
 
 pool: azure pipelines
 
-parameters:
-
 variables:
   - group: acr-devops
   - name: tag
