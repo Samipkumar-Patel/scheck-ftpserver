@@ -2,8 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ftp-server
+  labels:
+    app: ftp-server
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: ftp-server
   template:
     metadata:
       labels:
