@@ -51,4 +51,4 @@ jobs:
                   az account set --subscription $subscriptionId
                   az aks get-credentials --resource-group $aksRg --name $aksName --overwrite-existing --admin
                   kubectl apply -f deployment.yaml -n $aksNamespace
-                  kubectl apply -f service.yaml -n $aksNamespace
+                 # kubectl apply -f service.yaml -n $aksNamespace

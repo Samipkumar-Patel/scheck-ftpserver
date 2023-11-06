@@ -10,7 +10,7 @@ spec:
         app: ftp-server
     spec:
       containers:
-        - name: ftp-server
-          image: acrsimplechaindev.azurecr.io/container/scheck-ftpserver:0.1.0
-          ports:
-            - containerPort: 21
+      - name: ftp-server
+        image: acrsimplechaindev.azurecr.io/container/scheck-ftpserver:0.1.0
+        ports:
+          - containerPort: 21
