@@ -33,7 +33,7 @@ jobs:
           #     inlineScript: |
           #       docker login '$(acrName)' --username '$(ACR_USER_NAME)' --password '$(ACR_PASSWORD)'
           #       docker pull $(acrName)/$(acrDockerRepo)/$(serviceName):$(tag)
-
+            - checkout: self
             - task: AzureCLI@2
               displayName: Get credentials & kubectl apply
               inputs:
