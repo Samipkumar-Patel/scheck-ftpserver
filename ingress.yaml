@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: ftpserver-ingress 
 spec:
-  kubernetes.io/ingress.class: azure/application-gateway    
+  ingressClassName: azure/application-gateway    
   rules:
   - host: scheck-ftpserver
     http:
