@@ -1,12 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-ftpserver
+  name: scheck-ftpserver-api
 spec:
   selector:
-    app: ftp-server
+    app.kubernetes.io/instance: scheck-ftpserver-api
+    app.kubernetes.io/name: scheck-ftpserver-api
   ports:
     - protocol: TCP
       port: 21
-      targetPort: 21
+      targetPort: 5000
   type: ClusterIP

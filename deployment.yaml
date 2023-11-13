@@ -1,21 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ftp-server
+  name: scheck-ftpserver-api
   labels:
-    app: ftp-server
+    app.kubernetes.io/instance: scheck-ftpserver-api
+    app.kubernetes.io/name: scheck-ftpserver-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ftp-server
+      app.kubernetes.io/instance: scheck-ftpserver-api
+      app.kubernetes.io/name: scheck-ftpserver-api
   template:
     metadata:
       labels:
-        app: ftp-server
+        app: scheck-ftpserver-api
     spec:
       containers:
-      - name: ftp-server
+      - name: scheck-ftpserver-api
         image: acrsimplechaindev.azurecr.io/container/scheck-ftpserver:0.1.0
         ports:
           - containerPort: 21
