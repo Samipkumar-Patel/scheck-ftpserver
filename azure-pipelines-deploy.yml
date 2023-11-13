@@ -8,7 +8,7 @@ pool: azure pipelines
 variables:
   - group: acr-devops
   - name: tag
-    value: 0.1.4
+    value: 0.1.5
   - name: serviceName
     value: scheck-ftpserver-api
   - name: aksNamespace
@@ -107,7 +107,7 @@ jobs:
                   write-verbose "Install Chart Name $chartName with version $tag" -vb
                   #kubectl delete ingress scheck-ftpserver-api -n customs
                   #kubectl delete service scheck-ftpserver-api -n customs
-                  #helm uninstall scheck-ftpserver-api --namespace customs
+                  helm uninstall scheck-ftpserver-api --namespace customs
                   #helm ls -n customs
 
                   helm dependency update $chartName/
