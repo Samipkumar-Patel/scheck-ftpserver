@@ -1,15 +1,21 @@
 FROM delfer/alpine-ftp-server
 
-ENV FTP_USER=scheck
-ENV FTP_PASS=mYp@ssw0rd
+# Set environment variables for FTP users and passwords
+ENV USERS="one|1234"
+
 # Install openssl
 RUN apk --no-cache add openssl
 
 # Copy custom configuration file
 COPY vsftpd.conf /etc/vsftpd/vsftpd.conf
-# Create a virtual user with the specified password
-RUN echo "$FTP_USER:$(openssl passwd -1 $FTP_PASS)" > /etc/vsftpd/virtual_users.txt
+
+# Create virtual users with specified passwords
+RUN echo "$USERS" | while IFS='|' read -r user pass; do \
+      echo "$user:$(openssl passwd -1 $pass)" >> /etc/vsftpd/virtual_users.txt; \
+  done
+
 # Expose FTP port
 EXPOSE 21
+
 # Command to run the FTP server
 CMD ["vsftpd", "/etc/vsftpd/vsftpd.conf"]
