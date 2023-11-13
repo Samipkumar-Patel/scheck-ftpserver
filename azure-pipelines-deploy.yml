@@ -39,29 +39,29 @@ jobs:
           #       docker login '$(acrName)' --username '$(ACR_USER_NAME)' --password '$(ACR_PASSWORD)'
           #       docker pull $(acrName)/$(acrDockerRepo)/$(serviceName):$(tag)
             - checkout: self
-            - task: AzureCLI@2
-              displayName: Get credentials & kubectl apply
-              inputs:
-                azureSubscription: azureResourcesDevSC
-                workingDirectory: $(System.DefaultWorkingDirectory)
-                scriptType: pscore
-                scriptLocation: inlineScript
-                inlineScript: |
-                  $acrName = '$(acrName)'
-                  $aksNamespace = 'customs'
-                  $subscriptionId = '60d5585d-bac5-4c27-ba3b-f5d255a13fc2'
-                  $aksName = 'aks-simplechain-dev'
-                  $aksRg = 'rg-simplechain-dev'
+            # - task: AzureCLI@2
+            #   displayName: Get credentials & kubectl apply
+            #   inputs:
+            #     azureSubscription: azureResourcesDevSC
+            #     workingDirectory: $(System.DefaultWorkingDirectory)
+            #     scriptType: pscore
+            #     scriptLocation: inlineScript
+            #     inlineScript: |
+            #       $acrName = '$(acrName)'
+            #       $aksNamespace = 'customs'
+            #       $subscriptionId = '60d5585d-bac5-4c27-ba3b-f5d255a13fc2'
+            #       $aksName = 'aks-simplechain-dev'
+            #       $aksRg = 'rg-simplechain-dev'
 
-                  az account set --subscription $subscriptionId
-                  az aks get-credentials --resource-group $aksRg --name $aksName --overwrite-existing --admin
-                  kubectl delete deployment ftp-server -n customs
-                  #kubectl apply -f deployment.yaml -n $aksNamespace
-                  kubectl delete service service-ftpserver -n customs
-                  kubectl delete service ftp-service -n customs
-                  #kubectl apply -f service.yaml -n $aksNamespace
-                  kubectl delete ingress scheck-ftpserver-ingress -n customs
-                  #kubectl apply -f ingress.yaml -n $aksNamespace
+            #       az account set --subscription $subscriptionId
+            #       az aks get-credentials --resource-group $aksRg --name $aksName --overwrite-existing --admin
+            #       kubectl delete deployment ftp-server -n customs
+            #       #kubectl apply -f deployment.yaml -n $aksNamespace
+            #       kubectl delete service service-ftpserver -n customs
+            #       kubectl delete service ftp-service -n customs
+            #       #kubectl apply -f service.yaml -n $aksNamespace
+            #       kubectl delete ingress scheck-ftpserver-ingress -n customs
+            #       #kubectl apply -f ingress.yaml -n $aksNamespace
 
             - task: PowerShell@2
               displayName: "Helm login and pull chart"
@@ -88,17 +88,22 @@ jobs:
               env: 
                 HELM_EXPERIMENTAL_OCI: "1"
 
-            - task: PowerShell@2
-              displayName: "Helm install"
+            - task: AzureCLI@2
+              displayName: Get credentials & helm deploy service
               inputs:
-                targetType: 'inline'
+                azureSubscription: azureResourcesDevSC
                 workingDirectory: $(System.DefaultWorkingDirectory)
-                script: |
+                scriptType: pscore
+                scriptLocation: inlineScript
+                inlineScript: |
                   $chartName = '$(chartName)'
                   $tag = '$(tag)'
                   $serviceName = '$(serviceName)'
                   $k8sNamespace = 'customs'
-                
+                  $aksName = 'aks-simplechain-dev'
+                  $aksRg = 'rg-simplechain-dev'
+                                    
+                  az aks get-credentials --resource-group $aksRg --name $aksName --overwrite-existing --admin
                   write-verbose "Install Chart Name $chartName with version $tag" -vb
                   helm dependency update $chartName/
                   helm upgrade --install $serviceName $chartName/ --namespace $k8sNamespace
