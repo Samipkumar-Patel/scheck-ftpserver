@@ -1,7 +1,7 @@
 FROM delfer/alpine-ftp-server
 
 ENV FTP_USER=scheck
-ENV FTP_PASS="ECoviuM29!"
+ENV FTP_PASS=mYp@ssw0rd
 COPY vsftpd.conf /etc/vsftpd/vsftpd.conf
 
 
