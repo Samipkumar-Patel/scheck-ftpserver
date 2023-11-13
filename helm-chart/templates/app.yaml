@@ -1,3 +1,5 @@
+{{- include "ecovium-base-chart.configmap" . }}
+---
 {{- include "ecovium-base-chart.deployment" . }}
 {{- include "ecovium-base-chart.hpa" . }}
 ---
