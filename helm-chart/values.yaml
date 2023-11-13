@@ -38,13 +38,13 @@ probe:
   liveness:
     tcpSocket:
       port: 990
-    initialDelaySeconds: 10
-    periodSeconds: 20
+    initialDelaySeconds: 20
+    periodSeconds: 30
   readiness:
     tcpSocket:
       port: 990
-    initialDelaySeconds: 5
-    periodSeconds: 10
+    initialDelaySeconds: 10
+    periodSeconds: 30
 
 service:
   type: ClusterIP
