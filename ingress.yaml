@@ -11,13 +11,12 @@ spec:
   - host: scheck-ftpserver.api.cloud-dev.ecovium.com
     http:
       paths:
-      - pathType: Prefix
-        path: /
-        backend:
+      - backend:
           service:
-            name: service-ftpserver
+            name: scheck-ftpserver-api
             port:
               number: 21
+        pathType: ImplementationSpecific
   tls:
   - hosts:
     - scheck-ftpserver.api.cloud-dev.ecovium.com
