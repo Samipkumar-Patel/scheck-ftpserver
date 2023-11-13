@@ -37,6 +37,7 @@ jobs:
         docker build . -t $(acrName)/$(acrDockerRepo)/$(serviceName):$(tag)
         docker tag $(acrDockerRepo)/$(serviceName):$(tag)  $(acrName)/$(acrDockerRepo)/$(serviceName):$(tag)
         docker push $(acrName)/$(acrDockerRepo)/$(serviceName):$(tag)
+        
   - task: PowerShell@2
     displayName: Helm package
     condition: always()

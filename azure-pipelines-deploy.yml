@@ -105,7 +105,8 @@ jobs:
                                     
                   az aks get-credentials --resource-group $aksRg --name $aksName --overwrite-existing --admin
                   write-verbose "Install Chart Name $chartName with version $tag" -vb
-                  helm uninstall scheck-ftpserver --namespace customs
+                  helm uninstall scheck-ftpserver-api --namespace customs
+
                   helm dependency update $chartName/
                   helm upgrade --install $serviceName $chartName/ --namespace $k8sNamespace
               env: 
