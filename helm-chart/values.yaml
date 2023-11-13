@@ -36,15 +36,15 @@ configMap:
 
 probe:
   liveness:
-    httpGet:
-      path: /
+    tcpSocket:
       port: 21
-      scheme: HTTP
+    initialDelaySeconds: 10
+    periodSeconds: 20
   readiness:
-    httpGet:
-      path: /
+    tcpSocket:
       port: 21
-      scheme: HTTP
+    initialDelaySeconds: 5
+    periodSeconds: 10
 
 service:
   type: ClusterIP
