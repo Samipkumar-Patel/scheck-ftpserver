@@ -3,6 +3,8 @@ pr: none
 
 pool: azure pipelines
 
+
+
 variables:
   - group: acr-devops
   - name: tag
@@ -13,6 +15,9 @@ variables:
     value: customs 
   - name: acrDockerRepo
     value: container
+  - name: chartName
+    value: helm/scheck-ftpserver
+
 jobs:
   - deployment: Deployment
     displayName: Deploy to dev
@@ -51,11 +56,51 @@ jobs:
                   az account set --subscription $subscriptionId
                   az aks get-credentials --resource-group $aksRg --name $aksName --overwrite-existing --admin
                   kubectl delete deployment ftp-server -n customs
-                  kubectl apply -f deployment.yaml -n $aksNamespace
+                  #kubectl apply -f deployment.yaml -n $aksNamespace
                   kubectl delete service service-ftpserver -n customs
                   kubectl delete service ftp-service -n customs
-                  kubectl apply -f service.yaml -n $aksNamespace
+                  #kubectl apply -f service.yaml -n $aksNamespace
                   kubectl delete ingress scheck-ftpserver-ingress -n customs
-                  kubectl apply -f ingress.yaml -n $aksNamespace
+                  #kubectl apply -f ingress.yaml -n $aksNamespace
 
+            - task: PowerShell@2
+              displayName: "Helm login and pull chart"
+              inputs:
+                targetType: 'inline'
+                workingDirectory: $(System.DefaultWorkingDirectory)
+                script: |
+                  $acrName = '$(acrName)'
+                  $chartName = '$(chartName)'
+                  $tag = '$(tag)'
+                  
+                  #auth to acr
+                  write-verbose "Authenticating to ACR." -vb
+                  helm registry login $acrName --username $(ACR_USER_NAME) --password $(ACR_PASSWORD)
+                  helm repo update
+                  
+                  #create helm chart folder for service
+                  mkdir helm 
+                  cd helm/
+                  #download chart
+                  write-verbose "Pull Chart Name $chartName with version $tag" -vb
+                  helm pull oci://$acrName/$chartName --version $tag --untar
+                  ls
+              env: 
+                HELM_EXPERIMENTAL_OCI: "1"
 
+            - task: PowerShell@2
+                displayName: "Helm install"
+                inputs:
+                  targetType: 'inline'
+                  workingDirectory: $(System.DefaultWorkingDirectory)
+                  script: |
+                    $chartName = '$(chartName)'
+                    $tag = '$(tag)'
+                    $serviceName = '$(serviceName)'
+                    $k8sNamespace = 'customs'
+                  
+                    write-verbose "Install Chart Name $chartName with version $tag" -vb
+                    helm dependency update $chartName/
+                    helm upgrade --install $serviceName $chartName/ --namespace $k8sNamespace
+                env: 
+                  HELM_EXPERIMENTAL_OCI: "1"

@@ -1,0 +1,8 @@
+{{- include "ecovium-base-chart.deployment" . }}
+{{- include "ecovium-base-chart.hpa" . }}
+---
+{{- include "ecovium-base-chart.ingress" . }}
+---
+{{- include "ecovium-base-chart.service" . }}
+---
+{{- include "ecovium-base-chart.serviceaccount" . }}

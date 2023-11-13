@@ -19,16 +19,53 @@ variables:
 
 jobs:
 - job: Build
+  variables:
+  - name: acrHelmRepo
+    value: helm
+  - name: helmChartFolderName
+    value: helm-chart
   steps:
-  - task: AzureCLI@2
-    displayName: Docker build and push
+  # - task: AzureCLI@2
+  #   displayName: Docker build and push
+  #   inputs:
+  #     azureSubscription: azureResourcesSharedSC
+  #     workingDirectory: $(System.DefaultWorkingDirectory)
+  #     scriptType: pscore
+  #     scriptLocation: inlineScript
+  #     inlineScript: |
+  #       docker login '$(acrName)' --username '$(ACR_USER_NAME)' --password '$(ACR_PASSWORD)'
+  #       docker build . -t $(acrName)/$(acrDockerRepo)/$(serviceName):$(tag)
+  #       docker tag $(acrDockerRepo)/$(serviceName):$(tag)  $(acrName)/$(acrDockerRepo)/$(serviceName):$(tag)
+  #       docker push $(acrName)/$(acrDockerRepo)/$(serviceName):$(tag)
+  - task: PowerShell@2
+    displayName: Helm package
+    condition: always()
     inputs:
-      azureSubscription: azureResourcesSharedSC
-      workingDirectory: $(System.DefaultWorkingDirectory)
-      scriptType: pscore
-      scriptLocation: inlineScript
-      inlineScript: |
-        docker login '$(acrName)' --username '$(ACR_USER_NAME)' --password '$(ACR_PASSWORD)'
-        docker build . -t $(acrName)/$(acrDockerRepo)/$(serviceName):$(tag)
-        docker tag $(acrDockerRepo)/$(serviceName):$(tag)  $(acrName)/$(acrDockerRepo)/$(serviceName):$(tag)
-        docker push $(acrName)/$(acrDockerRepo)/$(serviceName):$(tag)
+      targetType: 'inline'
+      workingDirectory: $(System.DefaultWorkingDirectory)/$(devopsServicePath)
+      script: |
+        helm registry login '$(acrName)' --username '$(ACR_USER_NAME)' --password '$(ACR_PASSWORD)'
+        helm dependency update $(helmChartFolderName)
+        helm package $(helmChartFolderName) --version '$(tag)'
+        
+  - task: PowerShell@2
+    displayName: Helm publish
+    condition: always()
+    inputs:
+      targetType: 'inline'
+      workingDirectory: $(System.DefaultWorkingDirectory)/$(devopsServicePath)
+      script: |
+        helm push *.tgz oci://$(acrName)/$(acrHelmRepo)
+
+  # - task: AzureCLI@2
+  #   displayName: Docker build and push
+  #   inputs:
+  #     azureSubscription: azureResourcesSharedSC
+  #     workingDirectory: $(System.DefaultWorkingDirectory)
+  #     scriptType: pscore
+  #     scriptLocation: inlineScript
+  #     inlineScript: |
+  #       docker login '$(acrName)' --username '$(ACR_USER_NAME)' --password '$(ACR_PASSWORD)'
+  #       docker build . -t $(acrName)/$(acrDockerRepo)/$(serviceName):$(tag)
+  #       docker tag $(acrDockerRepo)/$(serviceName):$(tag)  $(acrName)/$(acrDockerRepo)/$(serviceName):$(tag)
+  #       docker push $(acrName)/$(acrDockerRepo)/$(serviceName):$(tag)
