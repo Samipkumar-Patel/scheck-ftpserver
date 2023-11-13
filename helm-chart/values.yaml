@@ -37,19 +37,19 @@ configMap:
 probe:
   liveness:
     tcpSocket:
-      port: 990
+      port: 21
     initialDelaySeconds: 20
     periodSeconds: 30
   readiness:
     tcpSocket:
-      port: 990
+      port: 21
     initialDelaySeconds: 10
     periodSeconds: 30
 
 service:
   type: ClusterIP
   port: 80
-  targetPort: 990
+  targetPort: 21
 
 ingress:
   enabled: true

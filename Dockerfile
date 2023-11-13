@@ -15,7 +15,7 @@ RUN echo "$USERS" | while IFS='|' read -r user pass; do \
   done
 
 # Expose FTP port
-EXPOSE 990
+EXPOSE 21
 
 # Command to run the FTP server
-CMD ["vsftpd", "/etc/vsftpd/vsftpd.conf", "--ssl_enable=YES", "--require_ssl_reuse=NO", "--ssl_ciphers=HIGH"]
+CMD ["vsftpd", "/etc/vsftpd/vsftpd.conf"]
