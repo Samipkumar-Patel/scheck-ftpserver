@@ -11,7 +11,7 @@ pool: azure pipelines
 variables:
   - group: acr-devops
   - name: tag
-    value: 0.1.5
+    value: 0.1.6
   - name: serviceName
     value: scheck-ftpserver-api
   - name: acrDockerRepo
