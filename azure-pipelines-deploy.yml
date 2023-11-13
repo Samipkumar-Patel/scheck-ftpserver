@@ -107,10 +107,10 @@ jobs:
                   write-verbose "Install Chart Name $chartName with version $tag" -vb
                   #kubectl delete ingress scheck-ftpserver-api -n customs
                   #kubectl delete service scheck-ftpserver-api -n customs
-                  helm uninstall scheck-ftpserver-api --namespace customs
-                  helm ls -n customs
+                  #helm uninstall scheck-ftpserver-api --namespace customs
+                  #helm ls -n customs
 
-                  #helm dependency update $chartName/
-                  #helm upgrade --install $serviceName $chartName/ --namespace $k8sNamespace
+                  helm dependency update $chartName/
+                  helm upgrade --install $serviceName $chartName/ --namespace $k8sNamespace
               env: 
                 HELM_EXPERIMENTAL_OCI: "1"
