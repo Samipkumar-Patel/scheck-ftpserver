@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: scheck-ftpserver-api
+  annotations:
+    meta.helm.sh/release-name: scheck-ftpserver-api
+    meta.helm.sh/release-namespace: customs
   labels:
     app.kubernetes.io/instance: scheck-ftpserver-api
     app.kubernetes.io/name: scheck-ftpserver-api
