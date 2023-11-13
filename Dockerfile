@@ -1,7 +1,7 @@
 FROM delfer/alpine-ftp-server
 
 # Set environment variables for FTP users and passwords
-ENV USERS="one|1234"
+ENV USERS="one|ecoviumM2"
 
 # Install openssl
 RUN apk --no-cache add openssl
