@@ -13,7 +13,7 @@ variables:
   - name: tag
     value: 0.1.4
   - name: serviceName
-    value: scheck-ftpserver
+    value: scheck-ftpserver-api
   - name: acrDockerRepo
     value: container
 

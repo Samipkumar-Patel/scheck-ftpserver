@@ -10,13 +10,13 @@ variables:
   - name: tag
     value: 0.1.4
   - name: serviceName
-    value: scheck-ftpserver
+    value: scheck-ftpserver-api
   - name: aksNamespace
     value: customs 
   - name: acrDockerRepo
     value: container
   - name: chartName
-    value: helm/scheck-ftpserver
+    value: helm/scheck-ftpserver-api
 
 jobs:
   - deployment: Deployment
