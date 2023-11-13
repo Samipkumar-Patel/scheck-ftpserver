@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: "#{acrName}#/container/scheck-ftpserver"
+  repository: "acrsimplechaindev.azurecr.io/container/scheck-ftpserver"
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "0.1.0"
@@ -51,9 +51,9 @@ service:
 ingress:
   enabled: true
   annotations: { }
-  hostname: scheck-ftpserver.#{api_domain}#
+  hostname: scheck-ftpserver.api.cloud-dev.ecovium.com
   useTls: true
-  cert: "#{api-certifcate-name}#"
+  cert: api-cloud-dev-ecovium-com
 
 
 resources: {}
