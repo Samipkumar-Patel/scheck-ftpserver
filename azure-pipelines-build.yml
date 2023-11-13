@@ -42,7 +42,7 @@ jobs:
     condition: always()
     inputs:
       targetType: 'inline'
-      workingDirectory: $(System.DefaultWorkingDirectory)/$(devopsServicePath)
+      workingDirectory: $(System.DefaultWorkingDirectory)
       script: |
         helm registry login '$(acrName)' --username '$(ACR_USER_NAME)' --password '$(ACR_PASSWORD)'
         helm dependency update $(helmChartFolderName)
@@ -53,7 +53,7 @@ jobs:
     condition: always()
     inputs:
       targetType: 'inline'
-      workingDirectory: $(System.DefaultWorkingDirectory)/$(devopsServicePath)
+      workingDirectory: $(System.DefaultWorkingDirectory)
       script: |
         helm push *.tgz oci://$(acrName)/$(acrHelmRepo)
 
