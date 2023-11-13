@@ -89,18 +89,18 @@ jobs:
                 HELM_EXPERIMENTAL_OCI: "1"
 
             - task: PowerShell@2
-                displayName: "Helm install"
-                inputs:
-                  targetType: 'inline'
-                  workingDirectory: $(System.DefaultWorkingDirectory)
-                  script: |
-                    $chartName = '$(chartName)'
-                    $tag = '$(tag)'
-                    $serviceName = '$(serviceName)'
-                    $k8sNamespace = 'customs'
-                  
-                    write-verbose "Install Chart Name $chartName with version $tag" -vb
-                    helm dependency update $chartName/
-                    helm upgrade --install $serviceName $chartName/ --namespace $k8sNamespace
-                env: 
-                  HELM_EXPERIMENTAL_OCI: "1"
+              displayName: "Helm install"
+              inputs:
+                targetType: 'inline'
+                workingDirectory: $(System.DefaultWorkingDirectory)
+                script: |
+                  $chartName = '$(chartName)'
+                  $tag = '$(tag)'
+                  $serviceName = '$(serviceName)'
+                  $k8sNamespace = 'customs'
+                
+                  write-verbose "Install Chart Name $chartName with version $tag" -vb
+                  helm dependency update $chartName/
+                  helm upgrade --install $serviceName $chartName/ --namespace $k8sNamespace
+              env: 
+                HELM_EXPERIMENTAL_OCI: "1"
