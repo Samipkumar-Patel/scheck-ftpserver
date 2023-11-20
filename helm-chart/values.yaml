@@ -48,7 +48,7 @@ probe:
 
 service:
   type: ClusterIP
-  port: 80
+  port: 21
   targetPort: 21
 
 ingress:
