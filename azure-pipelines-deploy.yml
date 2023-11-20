@@ -100,8 +100,8 @@ jobs:
                   $tag = '$(tag)'
                   $serviceName = '$(serviceName)'
                   $k8sNamespace = 'customs'
-                  $aksName = 'aks-simplechain-dev'
-                  $aksRg = 'rg-simplechain-dev'
+                  $aksName = 'aks-dev-foundation'
+                  $aksRg = 'rg-dev-foundation'
                                     
                   az aks get-credentials --resource-group $aksRg --name $aksName --overwrite-existing --admin
                   write-verbose "Install Chart Name $chartName with version $tag" -vb
