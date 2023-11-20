@@ -1,7 +1,8 @@
 FROM delfer/alpine-ftp-server
 
 # Set environment variables for FTP users and passwords
-ENV USERS="one|ecoviumM2"
+ENV USERS="one|ecoviumM2" \
+    ADDRESS="scheck-ftpserver-api"
 
 # Install openssl
 RUN apk --no-cache add openssl
@@ -15,7 +16,8 @@ RUN echo "$USERS" | while IFS='|' read -r user pass; do \
   done
 
 # Expose FTP port
-EXPOSE 20 21
+EXPOSE 20
+EXPOSE 21000-21010
 
 # Command to run the FTP server
 CMD ["vsftpd", "/etc/vsftpd/vsftpd.conf"]
