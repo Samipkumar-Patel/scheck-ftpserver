@@ -8,7 +8,7 @@ pool: azure pipelines
 variables:
   - group: acr-devops
   - name: tag
-    value: 0.1.7
+    value: 0.1.8
   - name: serviceName
     value: scheck-ftpserver-api
   - name: aksNamespace
