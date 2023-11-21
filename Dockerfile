@@ -6,7 +6,7 @@ ENV USERS="one|ecoviumM2"
 RUN apk --no-cache add openssl
 
 # Copy custom configuration file
-COPY vsftpd.conf /etc/vsftpd/vsftpd.conf
+#COPY vsftpd.conf /etc/vsftpd/vsftpd.conf
 
 # Create virtual users with specified passwords
 RUN echo "$USERS" | while IFS='|' read -r user pass; do \
