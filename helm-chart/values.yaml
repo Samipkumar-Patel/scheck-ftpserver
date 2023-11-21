@@ -4,7 +4,7 @@ image:
   repository: "acrsimplechaindev.azurecr.io/container/scheck-ftpserver-api"
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.2.0"
+  tag: "0.2.1"
 
 nameOverride: ""
 fullnameOverride: ""
@@ -48,8 +48,13 @@ probe:
 
 service:
   type: ClusterIP
-  port: 21
-  targetPort: 21
+  ports:
+  - name: ftp
+    port: 21
+    targetPort: 21
+  - name: ftp-data
+    port: 21000-21010
+    targetPort: 21000-21010
 
 ingress:
   enabled: true
