@@ -52,10 +52,10 @@ service:
   targetPort: 21
 
 ingress:
-  enabled: false
+  enabled: true
   annotations: { }
   hostname: scheck-ftpserver.api.cloud-dev.ecovium.com
-  useTls: false
+  useTls: true
   cert: api-cloud-dev-ecovium-com
 
 
