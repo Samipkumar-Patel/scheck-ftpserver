@@ -4,7 +4,7 @@ image:
   repository: "acrsimplechaindev.azurecr.io/container/scheck-ftpserver-api"
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.2.1"
+  tag: "0.2.2"
 
 nameOverride: ""
 fullnameOverride: ""
@@ -48,19 +48,14 @@ probe:
 
 service:
   type: ClusterIP
-  ports:
-  - name: ftp
-    port: 21
-    targetPort: 21
-  - name: ftp-data
-    port: 21000-21010
-    targetPort: 21000-21010
+  port: 21
+  targetPort: 21
 
 ingress:
-  enabled: true
+  enabled: false
   annotations: { }
   hostname: scheck-ftpserver.api.cloud-dev.ecovium.com
-  useTls: true
+  useTls: false
   cert: api-cloud-dev-ecovium-com
 
 
