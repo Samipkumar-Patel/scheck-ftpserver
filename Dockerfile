@@ -18,4 +18,4 @@ EXPOSE 20
 EXPOSE 21000-21005
 
 # Command to run the FTP server
-CMD ["vsftpd", "/etc/vsftpd/vsftpd.conf"]
+#CMD ["vsftpd", "/etc/vsftpd/vsftpd.conf"]
